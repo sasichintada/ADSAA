@@ -64,14 +64,13 @@ class SingleeList {
         System.out.print("Enter the number of edges: ");
         int e = sc.nextInt();
 
-        System.out.println("Enter edges in the format: from to weight");
+        System.out.println("Enter each edge as: u v w (from-vertex to-vertex weight)");
         for (int i = 0; i < e; i++) {
+            System.out.print("Edge " + (i + 1) + ": ");
             int u = sc.nextInt();
             int v = sc.nextInt();
             int w = sc.nextInt();
             cost.get(u).add(new Pair(v, w));
-            // If the graph is undirected, also add:
-            // cost.get(v).add(new Pair(u, w));
         }
 
         System.out.print("Enter the source vertex: ");
