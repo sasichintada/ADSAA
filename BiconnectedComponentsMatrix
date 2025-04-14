@@ -83,3 +83,16 @@ public class BiconnectedComponentsMatrix {
 }
     }
 }
+Enter the number of vertices: 5  
+Enter the number of edges: 5  
+Enter each edge as: u v (0-based index)  
+Edge 1: 1 0  
+Edge 2: 0 2  
+Edge 3: 2 1  
+Edge 4: 0 3  
+Edge 5: 3 4  
+Biconnected Components:
+Biconnected Component: [3-4] [0-3] 
+Biconnected Component: [2-1] [0-2] [1-0] 
+
+
