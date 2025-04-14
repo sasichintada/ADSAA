@@ -57,22 +57,29 @@ public class BiconnectedComponentsMatrix {
         }
     }
 
-    public static void main(String[] args) {
-        int V = 10;
-        int[][] adjMatrix = new int[V][V];
+   public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
 
-        addEdge(adjMatrix, 0, 1);
-        addEdge(adjMatrix, 1, 2);
-        addEdge(adjMatrix, 2, 3);
-        addEdge(adjMatrix, 3, 4);
-        addEdge(adjMatrix, 4, 5);
-        addEdge(adjMatrix, 5, 6);
-        addEdge(adjMatrix, 6, 7);
-        addEdge(adjMatrix, 4, 2);
-        addEdge(adjMatrix, 5, 8);
-        addEdge(adjMatrix, 5, 9);
+    System.out.print("Enter the number of vertices: ");
+    int V = sc.nextInt();
 
-        System.out.println("Biconnected Components:");
-        new BiconnectedComponentsMatrix().findBCC(adjMatrix, V);
+    int[][] adjMatrix = new int[V][V];
+
+    System.out.print("Enter the number of edges: ");
+    int E = sc.nextInt();
+
+    System.out.println("Enter each edge as: u v (0-based index)");
+    for (int i = 0; i < E; i++) {
+        System.out.print("Edge " + (i + 1) + ": ");
+        int u = sc.nextInt();
+        int v = sc.nextInt();
+        addEdge(adjMatrix, u, v);
+    }
+
+    System.out.println("\nBiconnected Components:");
+    new BiconnectedComponentsMatrix().findBCC(adjMatrix, V);
+
+    sc.close();
+}
     }
 }
