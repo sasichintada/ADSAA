@@ -1,0 +1,78 @@
+import java.util.*;
+
+public class BiconnectedComponentsMatrix {
+    private int time = 0;
+    private List<int[]> edgeStack = new ArrayList<>();
+
+    public static void addEdge(int[][] adjMatrix, int u, int v) {
+        adjMatrix[u][v] = 1;
+        adjMatrix[v][u] = 1;
+    }
+
+    private void DFS(int[][] adjMatrix, int u, int parent, int[] disc, int[] low, boolean[] visited) {
+        visited[u] = true;
+        disc[u] = low[u] = ++time;
+        int children = 0;
+
+        for (int v = 0; v < adjMatrix.length; v++) {
+            if (adjMatrix[u][v] == 1) {
+                if (!visited[v]) {
+                    children++;
+                    edgeStack.add(new int[]{u, v});
+                    DFS(adjMatrix, v, u, disc, low, visited);
+
+                    low[u] = Math.min(low[u], low[v]);
+
+                    if ((parent == -1 && children > 1) || (parent != -1 && low[v] >= disc[u])) {
+                        printBCC(u, v);
+                    }
+                } else if (v != parent && disc[v] < disc[u]) {
+                    low[u] = Math.min(low[u], disc[v]);
+                    edgeStack.add(new int[]{u, v});
+                }
+            }
+        }
+    }
+
+    private void printBCC(int u, int v) {
+        System.out.print("Biconnected Component: ");
+        while (!edgeStack.isEmpty()) {
+            int[] edge = edgeStack.remove(edgeStack.size() - 1);
+            System.out.print("[" + edge[0] + "-" + edge[1] + "] ");
+            if ((edge[0] == u && edge[1] == v) || (edge[0] == v && edge[1] == u)) break;
+        }
+        System.out.println();
+    }
+
+    public void findBCC(int[][] adjMatrix, int V) {
+        int[] disc = new int[V];
+        int[] low = new int[V];
+        boolean[] visited = new boolean[V];
+
+        for (int i = 0; i < V; i++) {
+            if (!visited[i]) {
+                DFS(adjMatrix, i, -1, disc, low, visited);
+                if (!edgeStack.isEmpty()) printBCC(-1, -1);
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        int V = 10;
+        int[][] adjMatrix = new int[V][V];
+
+        addEdge(adjMatrix, 0, 1);
+        addEdge(adjMatrix, 1, 2);
+        addEdge(adjMatrix, 2, 3);
+        addEdge(adjMatrix, 3, 4);
+        addEdge(adjMatrix, 4, 5);
+        addEdge(adjMatrix, 5, 6);
+        addEdge(adjMatrix, 6, 7);
+        addEdge(adjMatrix, 4, 2);
+        addEdge(adjMatrix, 5, 8);
+        addEdge(adjMatrix, 5, 9);
+
+        System.out.println("Biconnected Components:");
+        new BiconnectedComponentsMatrix().findBCC(adjMatrix, V);
+    }
+}
