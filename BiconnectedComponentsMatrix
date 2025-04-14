@@ -4,22 +4,22 @@ public class BiconnectedComponentsMatrix {
     private int time = 0;
     private List<int[]> edgeStack = new ArrayList<>();
 
-    public static void addEdge(int[][] adjMatrix, int u, int v) {
+    public static void addEdge(int[][] adj, int u, int v) {
         adjMatrix[u][v] = 1;
         adjMatrix[v][u] = 1;
     }
 
-    private void DFS(int[][] adjMatrix, int u, int parent, int[] disc, int[] low, boolean[] visited) {
+    private void DFS(int[][] adj, int u, int parent, int[] disc, int[] low, boolean[] visited) {
         visited[u] = true;
         disc[u] = low[u] = ++time;
         int children = 0;
 
-        for (int v = 0; v < adjMatrix.length; v++) {
-            if (adjMatrix[u][v] == 1) {
+        for (int v = 0; v < adj.length; v++) {
+            if (adj[u][v] == 1) {
                 if (!visited[v]) {
                     children++;
                     edgeStack.add(new int[]{u, v});
-                    DFS(adjMatrix, v, u, disc, low, visited);
+                    DFS(adj, v, u, disc, low, visited);
 
                     low[u] = Math.min(low[u], low[v]);
 
@@ -44,14 +44,14 @@ public class BiconnectedComponentsMatrix {
         System.out.println();
     }
 
-    public void findBCC(int[][] adjMatrix, int V) {
+    public void findBCC(int[][] adj, int V) {
         int[] disc = new int[V];
         int[] low = new int[V];
         boolean[] visited = new boolean[V];
 
         for (int i = 0; i < V; i++) {
             if (!visited[i]) {
-                DFS(adjMatrix, i, -1, disc, low, visited);
+                DFS(adj, i, -1, disc, low, visited);
                 if (!edgeStack.isEmpty()) printBCC(-1, -1);
             }
         }
@@ -63,7 +63,7 @@ public class BiconnectedComponentsMatrix {
     System.out.print("Enter the number of vertices: ");
     int V = sc.nextInt();
 
-    int[][] adjMatrix = new int[V][V];
+    int[][] adj = new int[V][V];
 
     System.out.print("Enter the number of edges: ");
     int E = sc.nextInt();
@@ -73,11 +73,11 @@ public class BiconnectedComponentsMatrix {
         System.out.print("Edge " + (i + 1) + ": ");
         int u = sc.nextInt();
         int v = sc.nextInt();
-        addEdge(adjMatrix, u, v);
+        addEdge(adj, u, v);
     }
 
     System.out.println("\nBiconnected Components:");
-    new BiconnectedComponentsMatrix().findBCC(adjMatrix, V);
+    new BiconnectedComponentsMatrix().findBCC(adj, V);
 
     sc.close();
 }
