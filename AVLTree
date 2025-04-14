@@ -1,0 +1,126 @@
+import java.util.*;
+
+class Node {
+    int data;
+    int height;
+    Node left, right;
+
+    Node(int value) {
+        data = value;
+        height = 0;
+        left = right = null;
+    }
+}
+
+class AVLTree {
+    private Node root;
+
+    public void insert(int value) {
+        root = insert(root, value);
+    }
+
+    private Node insert(Node node, int value) {
+        if (node == null)
+            return new Node(value);
+        
+        if (value < node.data)
+            node.left = insert(node.left, value);
+        else if (value > node.data)
+            node.right = insert(node.right, value);
+        
+        return balance(node);
+    }
+
+    private int height(Node node) {
+        return node == null ? -1 : node.height;
+    }
+
+    private Node balance(Node node) {
+        node.height = Math.max(height(node.left), height(node.right)) + 1;
+        int balanceFactor = height(node.left) - height(node.right);
+
+        if (balanceFactor > 1) {
+            if (height(node.left.left) >= height(node.left.right)) {
+                System.out.println("Performing LL Rotation");
+                return rotateRight(node);
+            } else {
+                System.out.println("Performing LR Rotation");
+                return doubleRotateLeft(node);
+            }
+        }
+
+        if (balanceFactor < -1) {
+            if (height(node.right.right) >= height(node.right.left)) {
+                System.out.println("Performing RR Rotation");
+                return rotateLeft(node);
+            } else {
+                System.out.println("Performing RL Rotation");
+                return doubleRotateRight(node);
+            }
+        }
+
+        return node;
+    }
+
+    private Node rotateRight(Node y) {
+        Node x = y.left;
+        y.left = x.right;
+        x.right = y;
+        
+        y.height = Math.max(height(y.left), height(y.right)) + 1;
+        x.height = Math.max(height(x.left), height(x.right)) + 1;
+        
+        return x;
+    }
+
+    private Node rotateLeft(Node x) {
+        Node y = x.right;
+        x.right = y.left;
+        y.left = x;
+        
+        x.height = Math.max(height(x.left), height(x.right)) + 1;
+        y.height = Math.max(height(y.left), height(y.right)) + 1;
+        
+        return y;
+    }
+
+    private Node doubleRotateLeft(Node node) {
+        node.left = rotateLeft(node.left);
+        return rotateRight(node);
+    }
+
+    private Node doubleRotateRight(Node node) {
+        node.right = rotateRight(node.right);
+        return rotateLeft(node);
+    }
+
+    public void inorderTraversal() {
+        inorderTraversal(root);
+        System.out.println();
+    }
+
+    private void inorderTraversal(Node node) {
+        if (node != null) {
+            inorderTraversal(node.left);
+            System.out.print(node.data + " ");
+            inorderTraversal(node.right);
+        }
+    }
+}
+
+public class AVLInsert1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        AVLTree avl = new AVLTree();
+        
+        System.out.println("Enter the number of elements:");
+        int n = sc.nextInt();
+        System.out.println("Enter the elements:");
+        for (int i = 0; i < n; i++) {
+            avl.insert(sc.nextInt());
+        }
+        
+        System.out.println("Inorder traversal of AVL Tree:");
+        avl.inorderTraversal();
+    }
+}
