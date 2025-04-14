@@ -53,22 +53,30 @@ public class BiconnectedComponentsList {
     }
 
     public static void main(String[] args) {
-        int V = 10;
-        List<List<Integer>> adj = new ArrayList<>();
-        for (int i = 0; i < V; i++) adj.add(new ArrayList<>());
+    Scanner sc = new Scanner(System.in);
 
-        int[][] edges = {
-            {0,1}, {1,2}, {2,0}, 
-            {3,4}, {4,5}, {5,3}, 
-            {6,7}, {7,8}, {8,6}, 
-            {9,9} // Self-loop
-        };
+    System.out.print("Enter the number of vertices: ");
+    int V = sc.nextInt();
 
-        for (int[] edge : edges) {
-            addEdge(adj, edge[0], edge[1]);
-        }
+    List<List<Integer>> adj = new ArrayList<>();
+    for (int i = 0; i < V; i++) adj.add(new ArrayList<>());
 
-        System.out.println("Biconnected Components:");
-        new BiconnectedComponents().findBCC(adj, V);
+    System.out.print("Enter the number of edges: ");
+    int E = sc.nextInt();
+
+    System.out.println("Enter each edge as: u v (0-based index)");
+    for (int i = 0; i < E; i++) {
+        System.out.print("Edge " + (i + 1) + ": ");
+        int u = sc.nextInt();
+        int v = sc.nextInt();
+        addEdge(adj, u, v);
+    }
+
+    System.out.println("\nBiconnected Components:");
+    new BiconnectedComponentsList().findBCC(adj, V);
+
+    sc.close();
+}
+
     }
 }
