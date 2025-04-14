@@ -58,29 +58,24 @@ public class BiconnectedComponentsMatrix {
     }
 
    public static void main(String[] args) {
-    Scanner sc = new Scanner(System.in);
-
-    System.out.print("Enter the number of vertices: ");
-    int V = sc.nextInt();
-
-    int[][] adj = new int[V][V];
-
-    System.out.print("Enter the number of edges: ");
-    int E = sc.nextInt();
-
-    System.out.println("Enter each edge as: u v (0-based index)");
-    for (int i = 0; i < E; i++) {
-        System.out.print("Edge " + (i + 1) + ": ");
-        int u = sc.nextInt();
-        int v = sc.nextInt();
-        addEdge(adj, u, v);
-    }
-
-    System.out.println("\nBiconnected Components:");
-    new BiconnectedComponentsMatrix().findBCC(adj, V);
-
-    sc.close();
-}
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter the number of vertices: ");
+        int V = sc.nextInt();
+        int[][] adj = new int[V][V];
+        System.out.print("Enter the number of edges: ");
+        int E = sc.nextInt();
+        System.out.println("Enter each edge as: u v (0-based index)");
+        for (int i = 0; i < E; i++) {
+            System.out.print("Edge " + (i + 1) + ": ");
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            addEdge(adj, u, v);
+        }
+    
+        System.out.println("\nBiconnected Components:");
+        new BiconnectedComponentsMatrix().findBCC(adj, V);
+    
+        sc.close();
     }
 }
 Enter the number of vertices: 5  
